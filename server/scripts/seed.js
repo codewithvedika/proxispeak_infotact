@@ -14,7 +14,7 @@ async function seed() {
   await Room.findOneAndUpdate(
     { roomId: defaultRoom.roomId },
     { $set: defaultRoom },
-    { upsert: true, new: true, setDefaultsOnInsert: true }
+    { upsert: true, setDefaultsOnInsert: true }
   );
 
   console.log('Seeded room:', defaultRoom.roomId);
