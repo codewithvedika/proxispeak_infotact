@@ -61,6 +61,17 @@ async function removePresence(socketId) {
   }
 }
 
+async function findNearby(socketId, roomId, x, y, radius = 100, limit = 8) {
+  if (!dbUp()) throw new Error('database unavailable');
+  return Presence.find({
+    roomId,
+    socketId: { $ne: socketId },
+    position: { $near: [x, y], $maxDistance: radius },
+  })
+    .limit(limit)
+    .lean();
+}
+
 // The Socket.IO owner registers its connected-user store once during server setup.
 function setActiveUsersProvider(provider) {
   if (typeof provider !== 'function') throw new TypeError('active user provider must be a function');
@@ -72,4 +83,4 @@ setInterval(() => {
   for (const user of activeUsersProvider()) queuePresence(user);
 }, HEARTBEAT_MS).unref();
 
-module.exports = { queuePresence, removePresence, flush, setActiveUsersProvider };
+module.exports = { queuePresence, removePresence, findNearby, flush, setActiveUsersProvider };

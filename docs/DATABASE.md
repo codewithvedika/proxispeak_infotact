@@ -55,4 +55,6 @@ The office map is a 1000×600 pixel plane, not latitude/longitude on Earth. A `2
 
 The presence service keeps the latest queued position for each socket and flushes the queue with a bulk write every 300 ms. A heartbeat can refresh connected idle users every 30 seconds. The 120-second TTL index removes abandoned presence records after crashes.
 
-**Integration note:** the service and REST routers are implemented. Socket.IO movement handlers must call the presence service using the client/server movement event contract; the current `server.js` connection handlers do not yet do that.
+## Socket.IO presence events
+
+With `USE_MONGO_PROXIMITY=true`, a client joins by emitting `presence:join` with `{ roomId, name, x, y }`. It sends `{ x, y }` with `presence:move` as it moves. The acknowledgement includes nearby users from the MongoDB `$near` query and sets `proximitySource` to `mongo`. Presence writes are queued and flushed in batches; disconnect removes that socket's record.
