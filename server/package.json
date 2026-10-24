@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node scripts/seed.js",
     "bench": "node scripts/benchmark-geo.js",
-    "load": "node scripts/load-test-mongo.js"
+    "load": "node scripts/load-test-mongo.js",
+    "check:indexes": "node scripts/check-indexes.js"
   },
   "keywords": [],
   "author": "",
