@@ -1,0 +1,12 @@
+{
+  "USERS_CURRENT": "users:current",
+  "USERS_JOINED": "users:joined",
+  "USERS_LEFT": "users:left",
+  "MOVEMENT_UPDATE": "movement:update",
+  "MOVEMENT_UPDATED": "movement:updated",
+  "PROXIMITY_ENTER": "proximity:enter",
+  "PROXIMITY_LEAVE": "proximity:leave",
+  "WEBRTC_OFFER": "webrtc:offer",
+  "WEBRTC_ANSWER": "webrtc:answer",
+  "WEBRTC_ICE": "webrtc:ice-candidate"
+}
