@@ -68,7 +68,7 @@ router.put('/:roomId', async (req, res) => {
           updatedAt: new Date(),
         },
       },
-      { upsert: true, new: true, runValidators: true, setDefaultsOnInsert: true }
+      { upsert: true, returnDocument: 'after', runValidators: true, setDefaultsOnInsert: true }
     ).lean();
     return res.json(room);
   } catch (error) {

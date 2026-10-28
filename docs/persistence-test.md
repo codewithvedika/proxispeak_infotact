@@ -10,3 +10,9 @@
 - After the server restart, a new test socket joined `main` successfully and received an `{ ok: true }` acknowledgement. This verifies a fresh presence can be written after restart; automatic reconnection of a real frontend client was not tested.
 - Test layout used a temporary lounge position `(760, 470)`. The persisted room was restored to the sample layout from `docs/sample-layout.json` after the persistence check.
 - The disconnected test Presence was removed by TTL. No test Presence records were intentionally left behind.
+
+## 28 Oct — live site
+- Render logs and the deployed `/health` endpoint were not checked because the service URL/log access was not available in this workspace; no live-site MongoServerError is claimed.
+- Local bug found and fixed: Mongoose deprecated the `new` option in the room `findOneAndUpdate`. Changed it to `returnDocument: 'after'` in `server/src/routes/rooms.js`.
+- Result: the local server connected to MongoDB and `PUT /api/rooms/main` returned the persisted layout without the previous deprecation warning.
+- Remaining finding: the room-layout `PUT` endpoint has no authorization middleware. See `docs/issues-database.md`; resolving it requires the team's authentication/authorization contract.
