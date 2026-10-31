@@ -58,3 +58,38 @@ The presence service keeps the latest queued position for each socket and flushe
 ## Socket.IO presence events
 
 With `USE_MONGO_PROXIMITY=true`, a client joins by emitting `presence:join` with `{ roomId, name, x, y }`. It sends `{ x, y }` with `presence:move` as it moves. The acknowledgement includes nearby users from the MongoDB `$near` query and sets `proximitySource` to `mongo`. Presence writes are queued and flushed in batches; disconnect removes that socket's record.
+
+## Collections diagram
+
+The `roomId` on each presence is a logical reference to `rooms.roomId`; MongoDB does not enforce a foreign key. Registered `users` are independent records and are not currently linked to socket presences.
+
+```mermaid
+erDiagram
+    direction LR
+    rooms ||--o{ presences : hosts
+
+    users {
+        string id PK
+        string name
+        string color
+        datetime createdAt
+    }
+    rooms {
+        string id PK
+        string roomId UK
+        string name
+        int width
+        int height
+        json obstacles "embedded obstacle array"
+        datetime updatedAt
+    }
+    presences {
+        string id PK
+        string socketId UK
+        string roomId "logical reference to rooms.roomId"
+        string name
+        string color
+        json position "2d coordinates [x,y]"
+        datetime updatedAt "TTL 120 seconds"
+    }
+```
